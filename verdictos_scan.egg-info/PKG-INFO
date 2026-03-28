@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: verdictos-scan
-Version: 1.0.0
+Version: 1.1.0
 Summary: Security scanner for AI-generated code
 Home-page: https://github.com/verdictos/scan
 Author: VerdictOS
@@ -126,3 +126,62 @@ We scanned 1,000 repositories using AI coding tools. Here's what we found:
 ---
 
 Built with 🔒 by [VerdictOS](https://verdictos.tech)
+
+---
+
+## 🆕 New in v1.1.0
+
+### Auto-Fix Suggestions
+Get instant recommendations on how to fix vulnerabilities:
+
+```bash
+verdictos-scan --path . --with-fixes
+```
+
+**Example output:**
+```
+[CRITICAL] PY-EVAL
+  File: app/api.py:45
+  Issue: eval() can lead to arbitrary code execution
+  
+  💡 Fix: Use ast.literal_eval() for safe evaluation
+  
+  Example:
+  # Bad:
+  result = eval(user_input)
+  
+  # Good:
+  import ast
+  result = ast.literal_eval(user_input)
+```
+
+### Security Badge
+Add a security badge to your README:
+
+```markdown
+[![VerdictOS Security](https://img.shields.io/badge/VerdictOS-SECURE-brightgreen)](https://verdictos.tech)
+```
+
+Badge automatically updates with your security score!
+
+### Social Sharing
+Share your security score on Twitter:
+
+```bash
+verdictos-scan --path . --share
+```
+
+Generates a ready-to-post tweet with your results.
+
+---
+
+## Roadmap
+
+- [ ] VS Code Extension (real-time scanning)
+- [ ] GitHub App (auto-scan PRs)
+- [ ] Web Playground (no installation needed)
+- [ ] Custom rules engine
+- [ ] Compliance reports (SOC 2, ISO 27001)
+
+Vote on features: https://github.com/VerdictOS/scan/discussions
+

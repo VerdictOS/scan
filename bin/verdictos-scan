@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+const { spawn } = require('child_process');
+const path = require('path');
+
+// Wrapper to call Python verdictos-scan
+const args = process.argv.slice(2);
+
+const python = spawn('verdictos-scan', args, {
+  stdio: 'inherit',
+  shell: true
+});
+
+python.on('close', (code) => {
+  process.exit(code);
+});
+
+python.on('error', (err) => {
+  console.error('Error: verdictos-scan requires Python to be installed');
+  console.error('Install: pip install verdictos-scan');
+  process.exit(1);
+});

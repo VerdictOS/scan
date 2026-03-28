@@ -1,0 +1,39 @@
+{
+  "name": "@verdictos/scan",
+  "version": "1.1.0",
+  "description": "Security scanner for AI-generated code. Finds eval(), hardcoded secrets, SQL injection, and other vulnerabilities in code written by Cursor, Copilot, Claude, and other AI tools.",
+  "keywords": [
+    "security",
+    "scanner",
+    "ai",
+    "copilot",
+    "cursor",
+    "claude",
+    "vulnerability",
+    "static-analysis",
+    "code-security"
+  ],
+  "homepage": "https://github.com/VerdictOS/scan",
+  "bugs": {
+    "url": "https://github.com/VerdictOS/scan/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VerdictOS/scan.git"
+  },
+  "license": "MIT",
+  "author": "VerdictOS <admin@verdictos.tech>",
+  "main": "index.js",
+  "bin": {
+    "verdictos-scan": "./bin/verdictos-scan"
+  },
+  "scripts": {
+    "test": "echo \"No tests yet\"",
+    "postinstall": "python3 -m pip install verdictos-scan --break-system-packages 2>/dev/null || pip3 install verdictos-scan 2>/dev/null || echo 'Please install Python package: pip install verdictos-scan'"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
