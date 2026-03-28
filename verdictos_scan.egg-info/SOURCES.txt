@@ -1,0 +1,10 @@
+LICENSE
+README.md
+setup.py
+verdictos_scan.py
+verdictos_scan.egg-info/PKG-INFO
+verdictos_scan.egg-info/SOURCES.txt
+verdictos_scan.egg-info/dependency_links.txt
+verdictos_scan.egg-info/entry_points.txt
+verdictos_scan.egg-info/requires.txt
+verdictos_scan.egg-info/top_level.txt

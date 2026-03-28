@@ -1,0 +1,2 @@
+[console_scripts]
+verdictos-scan = verdictos_scan:main
