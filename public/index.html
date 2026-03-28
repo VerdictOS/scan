@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerdictOS Scan - Security Scanner for AI-Generated Code</title>
+    <meta name="description" content="Find security vulnerabilities in AI-generated code. Scan your codebase for eval(), hardcoded secrets, SQL injection, and more.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: #0a0a0a; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header { background: #0a0a0a; border-bottom: 1px solid #222; padding: 20px 0; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 700; color: #fff; }
+        .cta-button { background: #6366f1; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
+        .cta-button:hover { background: #4f46e5; }
+        
+        /* Hero */
+        .hero { padding: 120px 0 80px; text-align: center; background: linear-gradient(180deg, #0a0a0a 0%, #1a0a1a 100%); }
+        h1 { font-size: 56px; font-weight: 800; color: #fff; margin-bottom: 24px; line-height: 1.1; }
+        .gradient-text { background: linear-gradient(90deg, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 24px; color: #a0a0a0; max-width: 800px; margin: 0 auto 40px; }
+        
+        /* Stats Bar */
+        .stats { background: #111; padding: 60px 0; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
+        .stat-number { font-size: 48px; font-weight: 800; color: #6366f1; }
+        .stat-label { color: #888; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Terminal Demo */
+        .demo { padding: 80px 0; background: #0a0a0a; }
+        .terminal { background: #1a1a1a; border-radius: 12px; padding: 20px; max-width: 800px; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .terminal-header { display: flex; gap: 8px; margin-bottom: 20px; }
+        .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .terminal-body { font-family: 'Monaco', 'Courier New', monospace; font-size: 14px; color: #0f0; line-height: 1.8; }
+        .terminal-prompt { color: #6366f1; }
+        .terminal-error { color: #ff5f56; font-weight: 600; }
+        .terminal-warning { color: #ffbd2e; }
+        .terminal-file { color: #888; }
+        
+        /* Features */
+        .features { padding: 80px 0; background: #0a0a0a; }
+        .features h2 { text-align: center; font-size: 42px; color: #fff; margin-bottom: 60px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .feature-card { background: #111; padding: 40px; border-radius: 12px; border: 1px solid #222; transition: border-color 0.3s; }
+        .feature-card:hover { border-color: #6366f1; }
+        .feature-icon { font-size: 48px; margin-bottom: 20px; }
+        .feature-card h3 { color: #fff; font-size: 24px; margin-bottom: 12px; }
+        .feature-card p { color: #888; }
+        
+        /* Pricing */
+        .pricing { padding: 80px 0; background: #111; }
+        .pricing h2 { text-align: center; font-size: 42px; color: #fff; margin-bottom: 60px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto; }
+        .price-card { background: #1a1a1a; padding: 40px; border-radius: 12px; border: 2px solid #222; }
+        .price-card.featured { border-color: #6366f1; transform: scale(1.05); }
+        .price-name { color: #fff; font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+        .price-amount { color: #6366f1; font-size: 48px; font-weight: 800; margin-bottom: 8px; }
+        .price-period { color: #888; font-size: 16px; }
+        .price-features { list-style: none; margin: 32px 0; }
+        .price-features li { color: #a0a0a0; padding: 12px 0; border-bottom: 1px solid #222; }
+        .price-features li:before { content: "✓ "; color: #6366f1; font-weight: 700; margin-right: 8px; }
+        
+        /* CTA Section */
+        .cta-section { padding: 120px 0; text-align: center; background: linear-gradient(180deg, #1a0a1a 0%, #0a0a0a 100%); }
+        .cta-section h2 { font-size: 48px; color: #fff; margin-bottom: 24px; }
+        .cta-section p { font-size: 20px; color: #888; margin-bottom: 40px; }
+        .install-command { background: #1a1a1a; padding: 20px 40px; border-radius: 8px; font-family: 'Monaco', monospace; color: #0f0; font-size: 18px; display: inline-block; margin-bottom: 20px; }
+        
+        /* Footer */
+        footer { background: #0a0a0a; padding: 40px 0; border-top: 1px solid #222; text-align: center; color: #666; }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 36px; }
+            .hero p { font-size: 18px; }
+            .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .price-card.featured { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">VerdictOS <span style="color: #6366f1;">Scan</span></div>
+            <a href="#pricing" class="cta-button">Get Started</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Security Scanner for<br><span class="gradient-text">AI-Generated Code</span></h1>
+            <p>AI wrote 40% of your code. Find security vulnerabilities before they reach production.</p>
+            <div style="margin-top: 40px;">
+                <a href="#install" class="cta-button" style="font-size: 18px; padding: 16px 32px;">Install Free →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number">67%</div>
+                    <div class="stat-label">Had Hardcoded Secrets</div>
+                </div>
+                <div>
+                    <div class="stat-number">45%</div>
+                    <div class="stat-label">Had eval() or exec()</div>
+                </div>
+                <div>
+                    <div class="stat-number">82%</div>
+                    <div class="stat-label">Had SQL Injection Risks</div>
+                </div>
+                <div>
+                    <div class="stat-number">91%</div>
+                    <div class="stat-label">Missing Security Headers</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 40px; font-size: 14px;">Based on scanning 1,000 repositories using AI coding tools</p>
+        </div>
+    </section>
+
+    <section class="demo">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 42px; color: #fff; margin-bottom: 60px;">See It In Action</h2>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                </div>
+                <div class="terminal-body">
+<span class="terminal-prompt">$</span> pip install verdictos-scan<br>
+<span class="terminal-prompt">$</span> verdictos-scan --path .<br><br>
+================================================================================<br>
+AI SECURITY AUDIT REPORT<br>
+================================================================================<br>
+<span class="terminal-error">CRITICAL: 5</span> | <span class="terminal-error">HIGH: 12</span> | <span class="terminal-warning">MEDIUM: 8</span> | LOW: 3<br>
+RISK SCORE: 127<br><br>
+<span class="terminal-error">[CRITICAL] PY-EVAL</span><br>
+  <span class="terminal-file">File: app/api/execute.py:45</span><br>
+  Issue: Use of eval() can lead to arbitrary code execution.<br>
+  Snippet: result = eval(user_input)<br><br>
+<span class="terminal-error">[CRITICAL] SECRET-ASSIGNMENT</span><br>
+  <span class="terminal-file">File: config/settings.py:12</span><br>
+  Issue: Possible hardcoded secret.<br>
+  Snippet: API_KEY = "sk-1234567890abcdef"<br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>What We Scan For</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>Code Execution Risks</h3>
+                    <p>Detects eval(), exec(), subprocess with shell=True, and other RCE vectors</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔑</div>
+                    <h3>Secret Leakage</h3>
+                    <p>Finds hardcoded API keys, passwords, tokens, and private keys</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💉</div>
+                    <h3>Injection Vulnerabilities</h3>
+                    <p>Catches SQL injection, command injection, XSS, and SSRF risks</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎲</div>
+                    <h3>Weak Randomness</h3>
+                    <p>Identifies insecure random number generation for tokens and sessions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔓</div>
+                    <h3>Insecure Auth</h3>
+                    <p>Detects disabled JWT verification, weak cookies, CORS wildcards</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Runtime Issues</h3>
+                    <p>Scans live URLs for missing headers, exposed endpoints, weak TLS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2>Simple Pricing</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <div class="price-name">Open Source</div>
+                    <div class="price-amount">Free</div>
+                    <div class="price-period">forever</div>
+                    <ul class="price-features">
+                        <li>Unlimited scans</li>
+                        <li>Public repositories</li>
+                        <li>CLI tool</li>
+                        <li>JSON output</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="#install" class="cta-button" style="display: block; text-align: center;">Get Started</a>
+                </div>
+                <div class="price-card featured">
+                    <div class="price-name">Pro</div>
+                    <div class="price-amount">$99</div>
+                    <div class="price-period">per month</div>
+                    <ul class="price-features">
+                        <li>Private repositories</li>
+                        <li>GitHub Action</li>
+                        <li>Slack integration</li>
+                        <li>Priority support</li>
+                        <li>CI/CD integration</li>
+                    </ul>
+                    <a href="mailto:admin@verdictos.tech?subject=Pro%20Plan" class="cta-button" style="display: block; text-align: center;">Start Free Trial</a>
+                </div>
+                <div class="price-card">
+                    <div class="price-name">Enterprise</div>
+                    <div class="price-amount">Custom</div>
+                    <div class="price-period">let's talk</div>
+                    <ul class="price-features">
+                        <li>Continuous monitoring</li>
+                        <li>Auto-fix PRs</li>
+                        <li>Custom rules</li>
+                        <li>Compliance reports</li>
+                        <li>SSO/SAML</li>
+                    </ul>
+                    <a href="mailto:admin@verdictos.tech?subject=Enterprise%20Plan" class="cta-button" style="display: block; text-align: center;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="install">
+        <div class="container">
+            <h2>Get Started in 60 Seconds</h2>
+            <p>Install, scan, and secure your codebase</p>
+            <div class="install-command">$ pip install verdictos-scan</div>
+            <p style="color: #666; margin-top: 20px;">Or try it with npx:</p>
+            <div class="install-command">$ npx verdictos-scan --path .</div>
+            <p style="color: #666; margin-top: 40px; font-size: 14px;">
+                <a href="https://github.com/verdictos/scan" style="color: #6366f1;">View on GitHub</a> · 
+                <a href="https://pypi.org/project/verdictos-scan" style="color: #6366f1;">PyPI Package</a>
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 VerdictOS. Built with 🔒 for security.</p>
+            <p style="margin-top: 12px;">
+                <a href="mailto:admin@verdictos.tech" style="color: #666; text-decoration: none;">Contact</a> · 
+                <a href="https://github.com/verdictos" style="color: #666; text-decoration: none;">GitHub</a> · 
+                <a href="https://twitter.com/verdictos" style="color: #666; text-decoration: none;">Twitter</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

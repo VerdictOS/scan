@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "name": "verdictos-scan",
+  "builds": [
+    {
+      "src": "landing.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/landing.html"
+    },
+    {
+      "src": "/install.sh",
+      "dest": "/install.sh"
+    }
+  ]
+}
